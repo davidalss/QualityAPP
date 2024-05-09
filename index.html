@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplicativo de Inspeção</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="titulo">Quality WAP|WAAW</h1>
+        <div class="tipo-inspecao">
+            <label for="tipo-inspecao">Selecione o tipo de inspeção:</label>
+            <select id="tipo-inspecao" onchange="redirecionarPagina()">
+                <option value="" disabled selected>Escolha uma opção</option>
+                <option value="lavadora">Lavadora de Alta Pressão</option>
+                <option value="aspirador">Aspirador</option>
+                <option value="extratora">Extratora</option>
+                <option value="robo">Robo Aspirador</option>
+                <option value="ferramentas">Ferramentas</option>
+                <option value="vaporizadores">Vaporizadores</option>
+                <option value="climatizadores">Climatizadores</option>
+                <option value="ventiladores">Ventiladores</option>
+                <option value="waaw">WAAW</option>
+                <option value="prosdocimo">PROSDÓCIMO</option>
+                <!-- Adicione mais opções conforme necessário -->
+            </select>           
+        </div>
+        <div class="relogio">
+            <div class="hora">
+                <span id="horas">00</span>
+                <span class="separador">:</span>
+                <span id="minutos">00</span>
+                <span class="separador">:</span>
+                <span id="segundos">00</span>
+            </div>
+            <div class="data-hora">
+                <div class="data">28/04/2024</div>
+                <div class="linha-animada"></div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/scripts.js"></script>
+
+    <script>
+        function redirecionarPagina() {
+            var categoria = document.getElementById("tipo-inspecao").value;
+            if (categoria) {
+                window.location.href = categoria + ".html";
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Embed, sans-serif;
+}
+
+body {
+    height: 100vh;
+    background-color: #121212; /* Cor de fundo escuro */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #282828; /* Cor da borda */
+    border-radius: 5px;
+    background-color: #1e1e1e; /* Cor do fundo */
+}
+
+.titulo {
+    font-size: 60px;
+    color: #1db954; /* Cor do texto principal */
+    margin-bottom: 20px;
+}
+
+.tipo-inspecao {
+    margin-bottom: 20px;
+    color: #fff; /* Cor do texto secundário */
+}
+
+.tipo-inspecao label {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.tipo-inspecao select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #282828; /* Cor da borda do campo select */
+    border-radius: 5px;
+    background-color: #333; /* Cor de fundo do campo select */
+    color: #fff; /* Cor do texto do campo select */
+    transition: transform 0.3s ease; /* Transição de animação */
+}
+
+.tipo-inspecao select:hover {
+    transform: scale(1.1); /* Aumenta a escala ao passar o mouse */
+}
+
+.relogio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #fff; /* Cor do texto */
+    background-color: #333; /* Cor de fundo */
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.hora {
+    font-size: 60px;
+    font-weight: bold;
+    color: #fff; /* Cor do texto */
+    margin-bottom: 10px;
+}
+
+.hora span {
+    padding: 0 5px;
+}
+
+.data-hora {
+    position: relative;
+}
+
+.data {
+    font-size: 24px;
+    color: #fff; /* Cor do texto */
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.linha-animada {
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #1db954, #fff); /* Cor da barra animada */
+    position: absolute;
+    bottom: -2px;
+    animation: animacao-barra 2s linear infinite;
+}
+
+@keyframes animacao-barra {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes animacao-degrade {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(45deg, #000000, #333333, #000000); /* Cor de fundo do degradê */
+    background-size: 400% 400%;
+    animation: animacao-degrade 15s ease infinite;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tipo-inspecao select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #282828; /* Cor da borda do campo select */
+    border-radius: 5px;
+    background-color: #333; /* Cor de fundo do campo select */
+    color: #fff; /* Cor do texto do campo select */
+    transition: transform 0.3s ease; /* Transição de animação */
+}
+
+.tipo-inspecao select:hover {
+    transform: scale(1.1); /* Aumenta a escala ao passar o mouse */
+}
+/* Estilo para o campo "Escolha uma opção" quando estiver em foco */
+#tipo-inspecao:focus {
+    box-shadow: 0px 0px 8px rgba(29, 185, 84, 0.5); /* Adiciona uma sombra sutil */
+    transition: box-shadow 0.3s ease; /* Transição suave para a sombra */
+}

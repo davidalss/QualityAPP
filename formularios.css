@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans:wght@100..900&display=swap');
+
+/* Estilo para toda a página */
+body {
+    font-family: 'Encode Sans', sans-serif;
+    background: linear-gradient(180deg, #000000, #4d4d4d);
+    background-size: 200% 100%; /* Definir o dobro da largura para permitir o movimento do gradiente */
+    animation: animateBackground 20s linear infinite;
+}
+
+@keyframes animateBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    100% {
+        background-position: 100% 50%;
+    }
+}
+
+/* Estilo para o formulário */
+.formulario {
+    background: linear-gradient(200deg, #000000 0%, #1f1f1f 100%);
+    padding: 80px;
+    border-radius: 20px;
+    margin-top: 20px;
+    color: #fff;
+    max-width: 700px;
+    margin: 0 auto;
+    height: auto; 
+}
+
+/* Estilo para o título do formulário */
+.titulo {
+    text-align: center;
+    font-size: 48px;
+    color: transparent;
+    margin-bottom: 20px;
+    background: linear-gradient(180deg, #1db954, #40bf40);
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: animateTitle 2s ease-in-out infinite;
+}
+
+/* Estilo para o subtítulo */
+.subtitulo {
+    text-align: center;
+    font-size: 24px;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+/* Estilo para os campos do formulário */
+.campo {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+}
+
+.campo label {
+    font-size: 14px;
+    color: #fff;
+    margin-bottom: 5px;
+    width: 120px; 
+}
+
+.campo input[type="text"],
+.campo input[type="number"],
+.campo select {
+    flex: 1; 
+    padding: 8px;
+    font-size: 14px;
+    border: none;
+    border-radius: 5px;
+    background-color: #333;
+    color: #fff;
+    margin-right: 10px; 
+    margin-bottom: 5px; 
+}
+
+/* Estilo para o botão de enviar, gerar campos e voltar */
+button[type="submit"],
+button#gerar-campos,
+button.botao-voltar {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 150px; /* Mesmo tamanho para todos os botões */
+}
+
+/* Estilo para o botão de enviar */
+button[type="submit"],
+button#gerar-campos {
+    background-color: #1db954; /* Cor de fundo verde */
+}
+
+button[type="submit"]:hover,
+button#gerar-campos:hover {
+    background-color: #179345; /* Cor de fundo verde escuro ao passar o mouse */
+}
+
+/* Estilo para o botão "Voltar para Página Inicial" */
+button.botao-voltar {
+    background-color: #808080; /* Cor de fundo cinza */
+}
+
+button.botao-voltar:hover {
+    background-color: #6b6b6b; /* Cor de fundo cinza escuro ao passar o mouse */
+}
+
+/* Estilo para os campos de produto gerados dinamicamente */
+.produto {
+    margin-bottom: 10px;
+}

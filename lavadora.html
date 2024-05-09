@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality WAP|WAAW - Lavadora de Alta Pressão</title>
+    <link rel="stylesheet" href="formularios.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="titulo">Quality WAP|WAAW</h1>
+        <div class="formulario">
+            <h2 class="subtitulo">Inspeção - Lavadora de Alta Pressão</h2>
+            <form id="formulario" onsubmit="salvarDados(); return false;">
+                <div class="campo">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" placeholder="Digite o nome">
+                    <label for="data">Data:</label>
+                    <input type="text" id="data" name="data" placeholder="Data" readonly>
+                </div>
+                <div class="campo">
+                    <label for="codigo">Código:</label>
+                    <input type="text" id="codigo" name="codigo" placeholder="EX:FW001122" onblur="buscarDescricaoProduto(this.value)">
+                    <label for="descricao">Descrição:</label>
+                    <input type="text" id="descricao" name="descricao" placeholder="Descrição do produto" readonly>
+                </div>
+                <div class="campo">
+                    <label for="rev">REV:</label>
+                    <input type="text" id="rev" name="rev" placeholder="Ex: 00AGO23 EMBALAGEM 00AGO00">
+                </div>
+                <h3 class="subtitulo">Parâmetros Técnicos</h3> <!-- Subtítulo Parâmetros Técnicos -->
+                <div class="campo">
+                    <label for="numProdutos">Número de Lavadoras:</label>
+                    <input type="number" id="numProdutos" name="numProdutos" min="1" max="50" required>
+                    <button type="button" id="gerar-campos" onclick="gerarCampos()">Gerar Campos</button> <!-- Botão Gerar Campos -->
+                </div>
+                <div id="campos"></div> <!-- Div para os campos de parâmetros técnicos -->
+                <div class="campo centralizar">
+                    <button type="submit">Salvar</button> <!-- Botão para salvar dados -->
+                    <button class="botao-voltar" onclick="window.location.href = 'index.html';">Voltar à Página Inicial</button> <!-- Botão para voltar à página inicial -->
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Função para gerar os campos de parâmetros técnicos
+        function gerarCampos() {
+            var numProdutos = document.getElementById('numProdutos').value;
+            var camposDiv = document.getElementById('campos');
+            camposDiv.innerHTML = ''; // Limpa os campos existentes
+    
+            for (var i = 1; i <= numProdutos; i++) {
+                var produtoDiv = document.createElement('div');
+                produtoDiv.className = 'produto';
+    
+                var titulo = document.createElement('h3');
+                titulo.textContent = 'Lavadora ' + i;
+                produtoDiv.appendChild(titulo);
+    
+                // Adiciona o campo do Serial Number
+                var campoSerialNumber = document.createElement('div');
+                campoSerialNumber.className = 'campo';
+                campoSerialNumber.innerHTML = '<label for="produto' + i + '_serialNumber">Serial Number:</label>' +
+                    '<input type="text" id="produto' + i + '_serialNumber" name="produto' + i + '_serialNumber">';
+                produtoDiv.appendChild(campoSerialNumber);
+    
+                // Adicione aqui os outros campos de parâmetros técnicos
+                var parametros = ['Pressão', 'Vazão', 'Voltagem', 'Amperagem', 'Visual', 'Funcional', 'Status'];
+                for (var j = 0; j < parametros.length; j++) {
+                    var campoDiv = document.createElement('div');
+                    campoDiv.className = 'campo';
+                    if (parametros[j] === 'Visual' || parametros[j] === 'Funcional' || parametros[j] === 'Status') {
+                        campoDiv.innerHTML = '<label for="produto' + i + '_' + parametros[j].toLowerCase() + '">' + parametros[j] + ':</label>' +
+                            '<select id="produto' + i + '_' + parametros[j].toLowerCase() + '" name="produto' + i + '_' + parametros[j].toLowerCase() + '">' +
+                            '<option value="OK">OK</option>' +
+                            '<option value="N/OK">N/OK</option>' +
+                            '</select>';
+                    } else {
+                        campoDiv.innerHTML = '<label for="produto' + i + '_' + parametros[j].toLowerCase() + '">' + parametros[j] + ':</label>' +
+                            '<input type="text" id="produto' + i + '_' + parametros[j].toLowerCase() + '" name="produto' + i + '_' + parametros[j].toLowerCase() + '">';
+                    }
+                    produtoDiv.appendChild(campoDiv);
+                }
+    
+                camposDiv.appendChild(produtoDiv);
+            }
+        }
+    </script>
+    
+    
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality WAP|WAAW - WAAW</title>
+    <link rel="stylesheet" href="formularios.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="titulo">Quality WAP|WAAW</h1>
+        <div class="formulario">
+            <h2 class="subtitulo">Inspeção - WAAW</h2>
+            <form id="formulario" onsubmit="salvarDados(); return false;">
+                <div class="campo">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" placeholder="Digite o nome">
+                    <label for="data">Data:</label>
+                    <input type="text" id="data" name="data" placeholder="Data" readonly>
+                </div>
+                <div class="campo">
+                    <label for="codigo">Código:</label>
+                    <input type="text" id="codigo" name="codigo" placeholder="EX:FW001122" onblur="buscarDescricaoProduto(this.value)">
+                    <label for="descricao">Descrição:</label>
+                    <input type="text" id="descricao" name="descricao" placeholder="Descrição do produto" readonly>
+                </div>
+                <div class="campo">
+                    <label for="rev">REV:</label>
+                    <input type="text" id="rev" name="rev" placeholder="Ex: 00AGO23 EMBALAGEM 00AGO00">
+                </div>
+                <div class="campo">
+                    <label for="numProdutos">Número de Produtos:</label>
+                    <input type="number" id="numProdutos" name="numProdutos" min="1" max="50" required>
+                    <button type="button" id="gerar-campos" onclick="gerarCampos()">Gerar Campos</button> <!-- Botão Gerar Campos -->
+                </div>
+                <div id="campos"></div> <!-- Div para os campos de parâmetros técnicos -->
+                <div class="campo centralizar">
+                    <button type="submit">Salvar</button> <!-- Botão para salvar dados -->
+                    <button onclick="window.location.href = 'index.html';" class="botao-voltar">Voltar à Página Inicial</button> <!-- Botão para voltar à página inicial -->
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Função para buscar a descrição do produto pelo código
+        function buscarDescricaoProduto(codigo) {
+            // Simulando o acesso a um banco de dados externo (JSON)
+            fetch('qualityW/WAAW/DADOS.JSON')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Dados recuperados do arquivo JSON:', data); // Verifica se os dados estão corretos
+                    // Verifica se o código está presente no banco de dados
+                    if (codigo in data) {
+                        // Se estiver presente, preenche o campo de descrição com a descrição correspondente
+                        document.getElementById('descricao').value = data[codigo];
+                    } else {
+                        // Se não estiver presente, exibe uma mensagem de código não encontrado
+                        document.getElementById('descricao').value = 'Código não encontrado';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao acessar o banco de dados:', error);
+                });
+        }
+
+        // Função para gerar os campos de parâmetros técnicos
+        function gerarCampos() {
+            var numProdutos = document.getElementById('numProdutos').value;
+            var camposDiv = document.getElementById('campos');
+            camposDiv.innerHTML = ''; // Limpa os campos existentes
+
+            for (var i = 1; i <= numProdutos; i++) {
+                var produtoDiv = document.createElement('div');
+                produtoDiv.className = 'produto';
+
+                var titulo = document.createElement('h3');
+                titulo.textContent = 'Produto ' + i;
+                produtoDiv.appendChild(titulo);
+
+                // Adiciona os campos de Voltagem, Amperagem, Inspeção Visual, Inspeção Funcional e Status
+                var parametros = ['Voltagem', 'Amperagem', 'Inspeção Visual', 'Inspeção Funcional', 'Status'];
+                for (var j = 0; j < parametros.length; j++) {
+                    var campoDiv = document.createElement('div');
+                    campoDiv.className = 'campo';
+                    var input = document.createElement('input');
+                    input.type = 'text';
+                    input.id = 'produto' + i + '_' + parametros[j].toLowerCase();
+                    input.name = 'produto' + i + '_' + parametros[j].toLowerCase();
+                    input.placeholder = parametros[j];
+
+                    if (parametros[j] === 'Voltagem' || parametros[j] === 'Amperagem') {
+                        input.addEventListener('input', function() {
+                            this.value = this.value.replace(/[^\d.,]/g, ''); // Remove tudo que não for dígito, vírgula ou ponto
+                        });
+                    } else if (parametros[j] === 'Inspeção Visual' || parametros[j] === 'Inspeção Funcional') {
+                        input = document.createElement('select');
+                        input.id = 'produto' + i + '_' + parametros[j].toLowerCase();
+                        input.name = 'produto' + i + '_' + parametros[j].toLowerCase();
+                        var options = ['OK', 'N/OK'];
+                        for (var k = 0; k < options.length; k++) {
+                            var option = document.createElement('option');
+                            option.value = options[k];
+                            option.text = options[k];
+                            input.appendChild(option);
+                        }
+                    } else if (parametros[j] === 'Status') {
+                        input = document.createElement('select');
+                        input.id = 'produto' + i + '_' + parametros[j].toLowerCase();
+                        input.name = 'produto' + i + '_' + parametros[j].toLowerCase();
+                        var options = ['APROVADO', 'REPROVADO'];
+                        for (var k = 0; k < options.length; k++) {
+                            var option = document.createElement('option');
+                            option.value = options[k];
+                            option.text = options[k];
+                            input.appendChild(option);
+                        }
+                    }
+
+                    campoDiv.appendChild(input);
+                    produtoDiv.appendChild(campoDiv);
+                }
+
+                camposDiv.appendChild(produtoDiv);
+            }
+        }
+
+        // Obtém a data atual e preenche o campo de data
+        var dataAtual = new Date();
+        var dia = String(dataAtual.getDate()).padStart(2, '0');
+        var mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+        var ano = dataAtual.getFullYear();
+        var dataFormatada = dia + '/' + mes + '/' + ano;
+        document.getElementById('data').value = dataFormatada;
+    </script>
+</body>
+</html>

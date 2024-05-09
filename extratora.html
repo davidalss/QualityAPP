@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quality WAP|WAAW - Extratora</title>
+    <link rel="stylesheet" href="formularios.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="titulo">Quality WAP|WAAW</h1>
+        <div class="formulario">
+            <h2 class="subtitulo">Inspeção - Extratora</h2>
+            <form id="formulario" onsubmit="salvarDados(); return false;">
+                <div class="campo">
+                    <label for="nome">Nome:</label>
+                    <input type="text" id="nome" name="nome" placeholder="Digite o nome">
+                    <label for="data">Data:</label>
+                    <input type="text" id="data" name="data" placeholder="Data" readonly>
+                </div>
+                <div class="campo">
+                    <label for="codigo">Código:</label>
+                    <input type="text" id="codigo" name="codigo" placeholder="EX:FW001122" onblur="buscarDescricaoProduto(this.value)">
+                    <label for="descricao">Descrição:</label>
+                    <input type="text" id="descricao" name="descricao" placeholder="Descrição do produto" readonly>
+                </div>
+                <div class="campo">
+                    <label for="rev">REV:</label>
+                    <input type="text" id="rev" name="rev" placeholder="Ex: 00AGO23 EMBALAGEM 00AGO00">
+                </div>
+                <h3 class="subtitulo">Parâmetros Técnicos</h3> <!-- Subtítulo Parâmetros Técnicos -->
+                <div class="campo">
+                    <label for="numProdutos">Número de Produtos:</label>
+                    <input type="number" id="numProdutos" name="numProdutos" min="1" max="50" required>
+                    <button type="button" id="gerar-campos" onclick="gerarCampos()">Gerar Campos</button> <!-- Botão Gerar Campos -->
+                </div>
+                <div id="campos"></div> <!-- Div para os campos de parâmetros técnicos -->
+                <div class="campo centralizar">
+                    <button type="submit">Salvar</button> <!-- Botão para salvar dados -->
+                    <button type="button" class="botao-voltar" onclick="voltarPaginaInicial()">Voltar para Página Inicial</button> <!-- Botão para voltar para página inicial -->
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Função para buscar a descrição do produto pelo código
+        function buscarDescricaoProduto(codigo) {
+            // Simulando o acesso a um banco de dados externo (JSON)
+            fetch('qualityW/Extratora/DADOS.JSON')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Dados recuperados do arquivo JSON:', data); // Verifica se os dados estão corretos
+                    // Verifica se o código está presente no banco de dados
+                    if (codigo in data) {
+                        // Se estiver presente, preenche o campo de descrição com a descrição correspondente
+                        document.getElementById('descricao').value = data[codigo];
+                    } else {
+                        // Se não estiver presente, exibe uma mensagem de código não encontrado
+                        document.getElementById('descricao').value = 'Código não encontrado';
+                    }
+                })
+                .catch(error => {
+                    console.error('Erro ao acessar o banco de dados:', error);
+                });
+        }
+
+        // Função para gerar os campos de parâmetros técnicos
+        function gerarCampos() {
+            var numProdutos = document.getElementById('numProdutos').value;
+            var camposDiv = document.getElementById('campos');
+            camposDiv.innerHTML = ''; // Limpa os campos existentes
+
+            for (var i = 1; i <= numProdutos; i++) {
+                var produtoDiv = document.createElement('div');
+                produtoDiv.className = 'produto';
+
+                var titulo = document.createElement('h3');
+                titulo.textContent = 'Produto ' + i;
+                produtoDiv.appendChild(titulo);
+
+                var parametros = ['Vácuo', 'Voltagem', 'Amperagem', 'Inspeção Visual', 'Inspeção Funcional', 'Status'];
+                for (var j = 0; j < parametros.length; j++) {
+                    var campoDiv = document.createElement('div');
+                    campoDiv.className = 'campo';
+                    if (parametros[j] === 'Inspeção Visual' || parametros[j] === 'Inspeção Funcional' || parametros[j] === 'Status') {
+                        campoDiv.innerHTML = '<label for="produto' + i + '_' + parametros[j].toLowerCase().replace(/\s+/g, '') + '">' + parametros[j] + ':</label>' +
+                            '<select id="produto' + i + '_' + parametros[j].toLowerCase().replace(/\s+/g, '') + '" name="produto' + i + '_' + parametros[j].toLowerCase().replace(/\s+/g, '') + '">' +
+                            '<option value="OK">OK</option>' +
+                            '<option value="N/OK">N/OK</option>' +
+                            '</select>';
+                    } else {
+                        campoDiv.innerHTML = '<label for="produto' + i + '_' + parametros[j].toLowerCase() + '">' + parametros[j] + ':</label>' +
+                            '<input type="text" id="produto' + i + '_' + parametros[j].toLowerCase() + '" name="produto' + i + '_' + parametros[j].toLowerCase() + '">';
+                    }
+                    produtoDiv.appendChild(campoDiv);
+                }
+
+                camposDiv.appendChild(produtoDiv);
+            }
+        }
+
+        // Função para redirecionar para a página inicial
+        function voltarPaginaInicial() {
+            window.location.href = 'index.html'; // Substitua 'index.html' pelo caminho correto da sua página inicial
+        }
+
+        // Obtém a data atual e preenche o campo de data
+        var dataAtual = new Date();
+        var dia = String(dataAtual.getDate()).padStart(2, '0');
+        var mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+        var ano = dataAtual.getFullYear();
+        var dataFormatada = dia + '/' + mes + '/' + ano;
+        document.getElementById('data').value = dataFormatada;
+    </script>
+</body>
+</html>
